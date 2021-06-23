@@ -22,6 +22,7 @@ import {Height} from '../Constants/size';
  *  Create expandable list of faq
  */
 import Icon from 'react-native-vector-icons/Ionicons';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import SupportExpandView from '../Components/common/SupportExpandView';
 import TopNavBar from '../Components/common/TopNavbar';
 import Touchable from '../Components/common/Touchable';
@@ -42,59 +43,61 @@ const Support: FunctionComponent<props> = ({navigation, route}) => {
     getFaq((data: any) => setSupportData(data));
   }, []);
   return (
-    <ScrollView
-      style={styles.parent}
-      contentContainerStyle={{paddingBottom: theme.SIZES.large}}>
-      <ImageBackground
-        source={require('../../assets/images/bg.png')}
-        style={{flex: 1, backgroundColor: theme.COLORS.WHITE}}
-        resizeMode="cover"
-        imageStyle={{opacity: 0.03}}>
-        <CustomHeader
-          navigation={navigation}
-          scene={route}
-          title={'Support'}
-          nav
-          logo
-        />
-        <Text style={styles.head}>FAQ?</Text>
-        <View style={{paddingHorizontal: theme.SIZES.small}}>
-          {supportData.map((item, index) => (
-            <SupportExpandView item={item} key={index} />
-          ))}
-        </View>
-        <View style={{paddingHorizontal: theme.SIZES.small}}>
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => setShow(!show)}
-            style={styles.queryStyle}>
-            <Text style={styles.queryText}>Any Other Query?</Text>
-            <Icon
-              name={show ? 'caret-up-outline' : 'caret-down-outline'}
-              size={25}
-            />
-          </TouchableOpacity>
-          {show && (
-            <View style={{alignItems: 'center'}}>
-              <TextInput
-                multiline={true}
-                textAlignVertical={'top'}
-                placeholder={'Type Your Query Here.....'}
-                style={styles.querInput}
+    <SafeAreaView style={styles.parent}>
+      <ScrollView
+        style={styles.parent}
+        contentContainerStyle={{paddingBottom: theme.SIZES.large}}>
+        <ImageBackground
+          source={require('../../assets/images/bg.png')}
+          style={styles.parent}
+          resizeMode="cover"
+          imageStyle={{opacity: 0.03}}>
+          <CustomHeader
+            navigation={navigation}
+            scene={route}
+            title={'Support'}
+            nav
+            logo
+          />
+          <Text style={styles.head}>FAQ?</Text>
+          <View style={{paddingHorizontal: theme.SIZES.small}}>
+            {supportData.map((item, index) => (
+              <SupportExpandView item={item} key={index} />
+            ))}
+          </View>
+          <View style={{paddingHorizontal: theme.SIZES.small}}>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => setShow(!show)}
+              style={styles.queryStyle}>
+              <Text style={styles.queryText}>Any Other Query?</Text>
+              <Icon
+                name={show ? 'caret-up-outline' : 'caret-down-outline'}
+                size={25}
               />
-              <Touchable
-                style={{width: '30%', borderRadius: theme.SIZES.large}}
-                filled
-                title={'Submit'}
-                loading={false}
-                size={'SMALL'}
-                touchableProps={{onPress: () => {}, disabled: false}}
-              />
-            </View>
-          )}
-        </View>
-      </ImageBackground>
-    </ScrollView>
+            </TouchableOpacity>
+            {show && (
+              <View style={{alignItems: 'center'}}>
+                <TextInput
+                  multiline={true}
+                  textAlignVertical={'top'}
+                  placeholder={'Type Your Query Here.....'}
+                  style={styles.querInput}
+                />
+                <Touchable
+                  style={{width: '30%', borderRadius: theme.SIZES.large}}
+                  filled
+                  title={'Submit'}
+                  loading={false}
+                  size={'SMALL'}
+                  touchableProps={{onPress: () => {}, disabled: false}}
+                />
+              </View>
+            )}
+          </View>
+        </ImageBackground>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

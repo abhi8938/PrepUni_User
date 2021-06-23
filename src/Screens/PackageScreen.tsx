@@ -16,6 +16,7 @@ import React, {FunctionComponent, useEffect, useState} from 'react';
 
 import AuthHeader from '../Components/common/AuthHeader';
 import PackageOverView from '../Components/common/PackageOverView';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import theme from '../Constants/theme';
 import useAuthState from '../State/AuthState';
 
@@ -30,30 +31,32 @@ const PackageScreen: FunctionComponent<props> = ({navigation, scene}) => {
   }, []);
 
   return (
-    <ImageBackground
-      source={require('../../assets/images/bg.png')}
-      style={styles.parent}
-      resizeMode="cover"
-      imageStyle={{opacity: 0.03}}>
-      <AuthHeader pageTitle={'Packages'} back={false} />
-      <Image
-        style={{marginTop: theme.SIZES.large * 2, alignSelf: 'center'}}
-        source={require('../Assets/images/packages.png')}
-      />
-      <View style={styles.child}>
-        {packages.map((item: any, index: number) => (
-          <PackageOverView
-            load={load}
-            title={item.type}
-            index={index}
-            key={index}
-            packs={item}
-            buy={() => Buy(navigation, item)}
-            trial={() => trial(item._id, navigation)}
-          />
-        ))}
-      </View>
-    </ImageBackground>
+    <SafeAreaView style={{backgroundColor: theme.COLORS.WHITE, flex: 1}}>
+      <ImageBackground
+        source={require('../../assets/images/bg.png')}
+        style={styles.parent}
+        resizeMode="cover"
+        imageStyle={{opacity: 0.03}}>
+        <AuthHeader pageTitle={'Packages'} back={false} />
+        <Image
+          style={styles.image}
+          source={require('../Assets/images/packages.png')}
+        />
+        <View style={styles.child}>
+          {packages.map((item: any, index: number) => (
+            <PackageOverView
+              load={load}
+              title={item.type}
+              index={index}
+              key={index}
+              packs={item}
+              buy={() => Buy(navigation, item)}
+              trial={() => trial(item._id, navigation)}
+            />
+          ))}
+        </View>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 
@@ -62,8 +65,12 @@ export default PackageScreen;
 const styles = StyleSheet.create({
   parent: {
     flex: 1,
-    backgroundColor: theme.COLORS.DEFAULT,
-    // paddingHorizontal: theme.SIZES.small / 2,
+  },
+  image: {
+    resizeMode: 'contain',
+    height: Height * 0.4,
+    aspectRatio: width > 400 ? 3 : 1.2,
+    alignSelf: 'center',
   },
   child: {
     flexDirection: 'row',
@@ -71,15 +78,6 @@ const styles = StyleSheet.create({
     marginTop: theme.SIZES.large,
     paddingHorizontal: theme.SIZES.small / 2,
     height: Height * 0.38,
-    justifyContent: 'space-between',
-  },
-  trial: {
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    borderColor: theme.COLORS.PRIMARY,
-    width: '49%',
-    borderRadius: 8,
-    borderWidth: 1,
-    paddingVertical: theme.SIZES.small,
+    justifyContent: 'center',
   },
 });

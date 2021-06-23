@@ -9,10 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
 import React, {FunctionComponent, useEffect, useState} from 'react';
 
 import Icon from '../Components/common/Icon';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import SubjectDropdown from '../Components/common/SubjectDropdown';
 import bg from '../../assets/images/bg.png';
 import theme from '../Constants/theme';
@@ -52,49 +52,57 @@ const SearchScreen: FunctionComponent<props> = ({navigation, route}) => {
 
   const {Search, searchResults} = useMainState();
   return (
-    <ImageBackground
-      source={bg}
-      style={styles.parent}
-      resizeMode="cover"
-      imageStyle={{opacity: 0.03}}>
-      <View style={styles.searchBar}>
-        <Icon
-          size={0.8}
-          type={'ARROW_LEFT'}
-          style={{
-            marginRight: theme.SIZES.small / 2.5,
-            padding: theme.SIZES.small / 1.5,
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
-            backgroundColor: theme.COLORS.BORDER,
-          }}
-          onPress={() => navigation.goBack()}
-        />
-        <TextInput
-          placeholder={'Search'}
-          onChangeText={(text) => {
-            setValue(text);
-          }}
-          value={value}
-          style={styles.input}
-        />
-        <TouchableOpacity
-          style={{marginLeft: 'auto', marginRight: theme.SIZES.small / 2}}
-          onPress={() => Search(value)}>
-          <Text style={styles.searchText}>Search</Text>
-        </TouchableOpacity>
-      </View>
-      <SubjectDropdown />
+    <SafeAreaView style={styles.parent}>
+      <ImageBackground
+        source={bg}
+        style={[
+          styles.parent,
+          {
+            paddingHorizontal: theme.SIZES.small / 1.2,
+            paddingVertical: theme.SIZES.small,
+          },
+        ]}
+        resizeMode="cover"
+        imageStyle={{opacity: 0.03}}>
+        <View style={styles.searchBar}>
+          <Icon
+            size={0.8}
+            type={'ARROW_LEFT'}
+            style={{
+              marginRight: theme.SIZES.small / 2.5,
+              padding: theme.SIZES.small / 1.5,
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              backgroundColor: theme.COLORS.BORDER,
+            }}
+            onPress={() => navigation.goBack()}
+          />
+          <TextInput
+            placeholder={'Search'}
+            onChangeText={(text) => {
+              setValue(text);
+            }}
+            value={value}
+            style={styles.input}
+          />
+          <TouchableOpacity
+            style={{marginLeft: 'auto', marginRight: theme.SIZES.small / 2}}
+            onPress={() => Search(value)}>
+            <Text style={styles.searchText}>Search</Text>
+          </TouchableOpacity>
+        </View>
+        <SubjectDropdown />
 
-      <Text style={styles.heading}>Highlights</Text>
-      <FlatList
-        keyExtractor={(item, index) => index.toString()}
-        data={searchResults.highlights}
-        renderItem={({item, index}: {item: any; index: number}) => (
-          <HighlightOverView item={item} value={value} />
-        )}
-      />
-    </ImageBackground>
+        <Text style={styles.heading}>Highlights</Text>
+        <FlatList
+          keyExtractor={(item, index) => index.toString()}
+          data={searchResults.highlights}
+          renderItem={({item, index}: {item: any; index: number}) => (
+            <HighlightOverView item={item} value={value} />
+          )}
+        />
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 
@@ -102,13 +110,11 @@ const styles = StyleSheet.create({
   parent: {
     flex: 1,
     backgroundColor: theme.COLORS.DEFAULT,
-    paddingHorizontal: theme.SIZES.small / 1.2,
   },
   searchBar: {
     flexDirection: 'row',
     width: '100%',
-    marginTop:
-      Platform.OS === 'ios' ? theme.SIZES.large * 3 : theme.SIZES.small * 1.2,
+
     marginBottom: theme.SIZES.normal / 2,
     alignItems: 'center',
   },

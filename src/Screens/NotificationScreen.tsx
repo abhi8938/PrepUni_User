@@ -18,6 +18,7 @@ import EmptyScreen from './EmptyScreen';
 import IonicIcons from 'react-native-vector-icons/Ionicons';
 import NotesDescScreen from '../Components/NotesDescScreen';
 import NotificationStore from '../State/NotificationStore';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import TopNav from '../Components/common/TopNavResources';
 import TopNavbar from '../Components/common/TopNavbar';
 import bg from '../../assets/images/bg.png';
@@ -68,39 +69,35 @@ const NotificationScreen: FunctionComponent<props> = ({navigation, route}) => {
   }, []);
 
   return (
-    <ImageBackground
-      source={bg}
-      style={styles.parent}
-      resizeMode="cover"
-      imageStyle={{opacity: 0.05}}>
-      <CustomHeader
-        style={{
-          paddingRight:
-            Platform.OS === 'android'
-              ? theme.SIZES.large * 4
-              : theme.SIZES.small,
-        }}
-        navigation={navigation}
-        scene={route}
-        title={'Notifications'}
-        back
-        logo
-      />
-      <FlatList
-        keyExtractor={(item: any) =>
-          `KEY_${item.id !== undefined ? item.id : item}`
-        }
-        style={{borderRadius: 8, marginVertical: theme.SIZES.small + 2}}
-        data={globalState.notifications}
-        ListEmptyComponent={<EmptyScreen icon={'ios-notifications'} />}
-        renderItem={({item, index}: {item: any; index: number}) => (
-          <NotificationView
-            item={item}
-            ondelete={() => deleteNotification(index)}
-          />
-        )}
-      />
-    </ImageBackground>
+    <SafeAreaView style={{flex: 1, backgroundColor: theme.COLORS.WHITE}}>
+      <ImageBackground
+        source={bg}
+        style={styles.parent}
+        resizeMode="cover"
+        imageStyle={{opacity: 0.05}}>
+        <CustomHeader
+          navigation={navigation}
+          scene={route}
+          title={'Notifications'}
+          back
+          logo
+        />
+        <FlatList
+          keyExtractor={(item: any) =>
+            `KEY_${item.id !== undefined ? item.id : item}`
+          }
+          style={{borderRadius: 8, marginVertical: theme.SIZES.small + 2}}
+          data={globalState.notifications}
+          ListEmptyComponent={<EmptyScreen icon={'ios-notifications'} />}
+          renderItem={({item, index}: {item: any; index: number}) => (
+            <NotificationView
+              item={item}
+              ondelete={() => deleteNotification(index)}
+            />
+          )}
+        />
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 

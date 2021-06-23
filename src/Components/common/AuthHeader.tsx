@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: theme.SIZES.small * 0.3,
     // backgroundColor: theme.COLORS.DEFAULT,
-    marginTop: Platform.OS === 'ios' ? theme.SIZES.large * 1.8 : 0,
     zIndex: 3,
   },
   titleContainer: {

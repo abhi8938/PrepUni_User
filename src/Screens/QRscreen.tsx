@@ -1,11 +1,13 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {StyleSheet, View, TouchableOpacity, Text, Share} from 'react-native';
-import QRCode from 'react-native-qrcode-svg';
-import Icon from 'react-native-vector-icons/Ionicons';
-import CustomHeader from '../Common/CustomHeader';
-import theme from '../Constants/theme';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
+import {Share, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomHeader from '../Common/CustomHeader';
+import Icon from 'react-native-vector-icons/Ionicons';
+import QRCode from 'react-native-qrcode-svg';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
+import theme from '../Constants/theme';
 import {useGlobalState} from '../State/GlobalState';
 
 type props = {
@@ -54,7 +56,7 @@ const QRscreen: FunctionComponent<props> = ({navigation, route}) => {
     }
   };
   return (
-    <>
+    <SafeAreaView style={{flex: 1, backgroundColor: theme.COLORS.WHITE}}>
       <View style={styles.parent}>
         <CustomHeader
           navigation={navigation}
@@ -88,7 +90,7 @@ const QRscreen: FunctionComponent<props> = ({navigation, route}) => {
           </Text>
         </View>
       </View>
-    </>
+    </SafeAreaView>
   );
 };
 

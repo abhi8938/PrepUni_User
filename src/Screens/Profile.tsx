@@ -4,7 +4,14 @@
 //* Loader
 
 import {Height, width} from '../Constants/size';
-import {Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
 import {
   ScrollView,
@@ -14,6 +21,7 @@ import {
 
 import CustomHeader from '../Common/CustomHeader';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import TextField from '../Components/common/TextField';
 import TopNav from '../Components/common/TopNavResources';
 import Touchable from '../Components/common/Touchable';
 import bg from '../../assets/images/bg.png';
@@ -21,7 +29,6 @@ import profileStore from '../Services/profileStore';
 import theme from '../Constants/theme';
 import {useGlobalState} from '../State/GlobalState';
 import useMainState from '../State/MainState';
-import TextField from '../Components/common/TextField';
 
 // import KeyValue from '../Components/common/KeyValue';
 
@@ -119,127 +126,129 @@ const Profile = ({navigation, route}: {navigation: any; route: any}) => {
     setRegister(x);
   };
   return (
-    <ImageBackground
-      source={bg}
-      style={styles.parent}
-      resizeMode="cover"
-      imageStyle={{opacity: 0.03}}>
-      <CustomHeader
-        navigation={navigation}
-        scene={route}
-        title={'Profile'}
-        nav
-        logo
-      />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: theme.SIZES.large * 2}}>
-        <View style={styles.first_child}>
-          <Text style={styles.heading}>Personal Information</Text>
-          <KeyValue
-            data={{
-              key: `Name`,
-              value: `${data.first_name.value} ${data.last_name.value}`,
-            }}
-          />
-          <KeyValue data={data.dob} style={styles.second_child_last} />
-        </View>
-        <View style={styles.first_child}>
-          <Text style={styles.heading}>Education Information</Text>
-          <KeyValue data={data.university} />
-          <KeyValue data={data.college} />
-          <KeyValue data={data.program} />
-          <KeyValue data={data.semester} style={styles.second_child_last} />
-        </View>
-        <View style={styles.first_child}>
-          <View style={styles.headWithIcon}>
-            <Text style={styles.heading}>Contact Information</Text>
-            <TouchableOpacity style={styles.iconStyle}>
-              <Icon name={'edit'} size={25} />
-            </TouchableOpacity>
+    <SafeAreaView style={{flex: 1, backgroundColor: theme.COLORS.WHITE}}>
+      <ImageBackground
+        source={bg}
+        style={styles.parent}
+        resizeMode="cover"
+        imageStyle={{opacity: 0.03}}>
+        <CustomHeader
+          navigation={navigation}
+          scene={route}
+          title={'Profile'}
+          nav
+          logo
+        />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingBottom: theme.SIZES.large * 2}}>
+          <View style={styles.first_child}>
+            <Text style={styles.heading}>Personal Information</Text>
+            <KeyValue
+              data={{
+                key: `Name`,
+                value: `${data.first_name.value} ${data.last_name.value}`,
+              }}
+            />
+            <KeyValue data={data.dob} style={styles.second_child_last} />
           </View>
-          <KeyValueTextField data={data.email} title={'Email'} />
-          <KeyValueTextField
-            title={'Phone Number'}
-            data={data.contact}
-            style={{marginTop: theme.SIZES.small}}
-          />
-          <Touchable
-            title={'Update'}
-            size={'SMALL'}
-            style={styles.buttonStyle}
-            filled
-            loading={false}
-            touchableProps={{onPress: () => {}, disabled: false}}
-          />
-        </View>
-        <View style={styles.first_child}>
-          <View style={styles.headWithIcon}>
-            <Text style={styles.heading}>Password</Text>
-            <TouchableOpacity
-              style={styles.iconStyle}
-              onPress={() => {
-                setEdit(true);
-              }}>
-              <Icon name={'edit'} size={25} />
-            </TouchableOpacity>
+          <View style={styles.first_child}>
+            <Text style={styles.heading}>Education Information</Text>
+            <KeyValue data={data.university} />
+            <KeyValue data={data.college} />
+            <KeyValue data={data.program} />
+            <KeyValue data={data.semester} style={styles.second_child_last} />
           </View>
-          <TextField
-            inputProps={{
-              placeholder: 'Password',
-              value: password.password.text,
-              onChangeText: (text) => {
-                handlePassword('password', 'text', text);
-              },
-              onBlur: () => handlePassword('password', 'active', false),
-              onFocus: () => handlePassword('password', 'active', true),
-            }}
-            secureText={{
-              onToggle: () =>
-                handlePassword('password', 'show', !password.password.show),
-              hidden: password.password.show,
-            }}
-            error={password.password.error_message}
-          />
+          <View style={styles.first_child}>
+            <View style={styles.headWithIcon}>
+              <Text style={styles.heading}>Contact Information</Text>
+              <TouchableOpacity style={styles.iconStyle}>
+                <Icon name={'edit'} size={25} />
+              </TouchableOpacity>
+            </View>
+            <KeyValueTextField data={data.email} title={'Email'} />
+            <KeyValueTextField
+              title={'Phone Number'}
+              data={data.contact}
+              style={{marginTop: theme.SIZES.small}}
+            />
+            <Touchable
+              title={'Update'}
+              size={'SMALL'}
+              style={styles.buttonStyle}
+              filled
+              loading={false}
+              touchableProps={{onPress: () => {}, disabled: false}}
+            />
+          </View>
+          <View style={styles.first_child}>
+            <View style={styles.headWithIcon}>
+              <Text style={styles.heading}>Password</Text>
+              <TouchableOpacity
+                style={styles.iconStyle}
+                onPress={() => {
+                  setEdit(true);
+                }}>
+                <Icon name={'edit'} size={25} />
+              </TouchableOpacity>
+            </View>
+            <TextField
+              inputProps={{
+                placeholder: 'Password',
+                value: password.password.text,
+                onChangeText: (text) => {
+                  handlePassword('password', 'text', text);
+                },
+                onBlur: () => handlePassword('password', 'active', false),
+                onFocus: () => handlePassword('password', 'active', true),
+              }}
+              secureText={{
+                onToggle: () =>
+                  handlePassword('password', 'show', !password.password.show),
+                hidden: password.password.show,
+              }}
+              error={password.password.error_message}
+            />
 
-          <TextField
-            inputProps={{
-              placeholder: 'Re-enter Password',
-              value: password.password_new.text,
-              onChangeText: (text) => {
-                handlePassword('password_again', 'text', text);
-              },
-              onBlur: () => handlePassword('password_new', 'active', false),
-              onFocus: () => handlePassword('password_new', 'active', true),
-            }}
-            secureText={{
-              onToggle: () =>
-                handlePassword(
-                  'password_new',
-                  'show',
-                  !password.password_new.show,
-                ),
-              hidden: password.password_new.show,
-            }}
-            error={password.password_new.error_message}
-          />
+            <TextField
+              inputProps={{
+                placeholder: 'Re-enter Password',
+                value: password.password_new.text,
+                onChangeText: (text) => {
+                  handlePassword('password_again', 'text', text);
+                },
+                onBlur: () => handlePassword('password_new', 'active', false),
+                onFocus: () => handlePassword('password_new', 'active', true),
+              }}
+              secureText={{
+                onToggle: () =>
+                  handlePassword(
+                    'password_new',
+                    'show',
+                    !password.password_new.show,
+                  ),
+                hidden: password.password_new.show,
+              }}
+              error={password.password_new.error_message}
+            />
 
-          <Touchable
-            title={'Update'}
-            size={'SMALL'}
-            style={styles.buttonStyle}
-            filled
-            loading={false}
-            touchableProps={{
-              onPress: () => {
-                setEdit(false);
-              },
-              disabled: false,
-            }}
-          />
-        </View>
-      </ScrollView>
-    </ImageBackground>
+            <Touchable
+              title={'Update'}
+              size={'SMALL'}
+              style={styles.buttonStyle}
+              filled
+              loading={false}
+              touchableProps={{
+                onPress: () => {
+                  setEdit(false);
+                },
+                disabled: false,
+              }}
+            />
+          </View>
+        </ScrollView>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 

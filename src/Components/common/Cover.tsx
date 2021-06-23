@@ -22,13 +22,14 @@ export default Cover;
 
 const styles = StyleSheet.create({
   parent: {
-    height: '100%',
-    width: Platform.OS === 'ios' ? width * 0.25 : width * 0.25,
+    width: '30%',
+    maxHeight: Height * 0.17,
   },
   image: {
     height: '100%',
     width: '100%',
     borderRadius: 9,
     backgroundColor: '#ccc',
+    aspectRatio: 0.6,
   },
 });

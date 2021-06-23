@@ -15,10 +15,11 @@ import React, {FunctionComponent, useEffect, useState} from 'react';
 import CustomHeader from '../Common/CustomHeader';
 import ExpandableView from '../Components/common/SyllabusView';
 import ResourceHeader from '../Common/ResourceHeader';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Subscription from '../Components/modals/Subscription';
 import resourcesStore from '../State/resourcesStore';
 import theme from '../Constants/theme';
 import {useGlobalState} from '../State/GlobalState';
-import Subscription from '../Components/modals/Subscription';
 
 type props = {
   navigation?: any;
@@ -46,42 +47,44 @@ const SyllabusScreen: FunctionComponent<props> = ({navigation, scene}) => {
     }
   };
   return (
-    <ImageBackground
-      source={require('../../assets/images/bg.png')}
-      style={styles.parent}
-      resizeMode="cover"
-      imageStyle={{opacity: 0.03}}>
-      <CustomHeader
-        navigation={navigation}
-        scene={scene}
-        title={'Resources'}
-        nav
-        logo
-      />
-      <Subscription
-        show={showSubscription}
-        type={'ABOUTTIME'}
-        navigation={navigation}
-        message={'Please Update Subscription to Access Content'}
-        hide={() => setShowSubscription(false)}
-      />
-      <View style={{paddingHorizontal: theme.SIZES.small / 2}}>
-        <ResourceHeader title={'Syllabus'} />
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingBottom: Height * 0.5}}>
-          <View style={{marginTop: theme.SIZES.small}}>
-            {subjects.map((item: any, index: number) => (
-              <ExpandableView
-                key={index}
-                semData={item}
-                onPress={() => onPress(item, index)}
-              />
-            ))}
-          </View>
-        </ScrollView>
-      </View>
-    </ImageBackground>
+    <SafeAreaView style={{flex: 1, backgroundColor: theme.COLORS.WHITE}}>
+      <ImageBackground
+        source={require('../../assets/images/bg.png')}
+        style={styles.parent}
+        resizeMode="cover"
+        imageStyle={{opacity: 0.03}}>
+        <CustomHeader
+          navigation={navigation}
+          scene={scene}
+          title={'Resources'}
+          nav
+          logo
+        />
+        <Subscription
+          show={showSubscription}
+          type={'ABOUTTIME'}
+          navigation={navigation}
+          message={'Please Update Subscription to Access Content'}
+          hide={() => setShowSubscription(false)}
+        />
+        <View style={{paddingHorizontal: theme.SIZES.small / 2}}>
+          <ResourceHeader title={'Syllabus'} />
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{paddingBottom: Height * 0.5}}>
+            <View style={{marginTop: theme.SIZES.small}}>
+              {subjects.map((item: any, index: number) => (
+                <ExpandableView
+                  key={index}
+                  semData={item}
+                  onPress={() => onPress(item, index)}
+                />
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 

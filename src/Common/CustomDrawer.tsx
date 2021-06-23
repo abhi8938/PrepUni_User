@@ -21,13 +21,14 @@ import React, {FunctionComponent, useEffect, useState} from 'react';
 
 import AgreementModal from './AgreementModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Services from '../Services/services';
+import Subscription from '../Components/modals/Subscription';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import theme from '../Constants/theme';
 import useAuthState from '../State/AuthState';
 import {useGlobalState} from '../State/GlobalState';
 import {width} from '../Constants/size';
-import Subscription from '../Components/modals/Subscription';
 
 type props = {
   navigation?: any;
@@ -156,8 +157,8 @@ const styles = StyleSheet.create({
     height: theme.SIZES.large * 2,
     justifyContent: 'center',
     paddingHorizontal: theme.SIZES.small,
-    backgroundColor: theme.COLORS.PLACEHOLDER,
-    elevation: 1,
+    backgroundColor: `${theme.COLORS.PRIMARY}99`,
+    // elevation: 1,
     shadowRadius: 3,
     shadowOpacity: 0.2,
   },
@@ -166,14 +167,14 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 3,
     shadowOpacity: 0.2,
-    elevation: 2,
+    // elevation: 2,
   },
   card_parent: {
     flexDirection: 'row',
     paddingHorizontal: theme.SIZES.normal + 2,
     paddingVertical: theme.SIZES.normal,
     marginVertical: theme.SIZES.large,
-    backgroundColor: '#A4A4A4',
+    backgroundColor: `${theme.COLORS.PRIMARY}90`,
     marginHorizontal: theme.SIZES.small / 1.5,
     borderRadius: 5,
   },
@@ -201,6 +202,6 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     lineHeight: 24,
     fontFamily: 'Signika-SemiBold',
-    color: theme.COLORS.BLOCK,
+    color: theme.COLORS.DEFAULT,
   },
 });

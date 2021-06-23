@@ -65,7 +65,11 @@ const Entrance: FunctionComponent<props> = ({navigation, route}) => {
     const token = await AsyncStorage.getItem('TOKEN');
     if (token !== null) {
       await getUser();
-      await getSubscription();
+      let subscription = await getSubscription();
+      console.log('subscription', subscription);
+      if (subscription._id === undefined) {
+        return 'Packages';
+      }
       return 'Main';
     } else {
       return 'Auth';

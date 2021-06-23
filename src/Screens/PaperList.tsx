@@ -1,3 +1,5 @@
+import * as Progress from 'react-native-progress';
+
 import {
   FlatList,
   Image,
@@ -13,12 +15,12 @@ import React, {FunctionComponent, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomHeader from '../Common/CustomHeader';
 import IonicIcons from 'react-native-vector-icons/Ionicons';
+import RNFetchBlob from 'rn-fetch-blob';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Subscription from '../Components/modals/Subscription';
 import {URL} from '../Constants/urls';
 import theme from '../Constants/theme';
 import {useGlobalState} from '../State/GlobalState';
-import RNFetchBlob from 'rn-fetch-blob';
-import * as Progress from 'react-native-progress';
-import Subscription from '../Components/modals/Subscription';
 
 type props = {
   navigation: any;
@@ -59,6 +61,7 @@ const PaperList: FunctionComponent<props> = ({navigation, route, scene}) => {
         navigation.navigate('Reader', {
           uri: `${URL}/paper/files/${item.link}`,
           token,
+          paper: item._id,
         });
       }
     } else {
@@ -66,6 +69,7 @@ const PaperList: FunctionComponent<props> = ({navigation, route, scene}) => {
       navigation.navigate('Reader', {
         uri: `${URL}/paper/files/${item.link}`,
         token,
+        paper: item._id,
       });
     }
   };
@@ -108,7 +112,7 @@ const PaperList: FunctionComponent<props> = ({navigation, route, scene}) => {
           }>
           <View style={styles.paperView}>
             <Text style={styles.subjectName}>
-              {item.name ? item.name : 'Examination Paper'}
+              {item.name ? item.name : 'Practice Material - ' + `${index + 1}`}
             </Text>
             <Text style={styles.yearValue}>{item.year}</Text>
           </View>
@@ -147,7 +151,13 @@ const PaperList: FunctionComponent<props> = ({navigation, route, scene}) => {
                   paperId: item._id,
                 })
               }>
-              <Image source={require('../../assets/images/notesIcon.png')} />
+              <Image
+                style={{
+                  width: theme.SIZES.large,
+                  height: theme.SIZES.large + 4,
+                }}
+                source={require('../../assets/images/notesIcon.png')}
+              />
             </TouchableOpacity>
           </>
         )}
@@ -156,30 +166,32 @@ const PaperList: FunctionComponent<props> = ({navigation, route, scene}) => {
   };
 
   return (
-    <ImageBackground
-      source={require('../../assets/images/bg.png')}
-      style={styles.parent}
-      resizeMode="cover"
-      imageStyle={{opacity: 0.05}}>
-      <CustomHeader
-        navigation={navigation}
-        scene={scene}
-        title={globalState.subject[id].name}
-        back
-      />
-      <Text
-        style={
-          styles.marksText
-        }>{`Maximum Marks: ${globalState.subject[id].maximum_marks}`}</Text>
-      <FlatList
-        keyExtractor={(item, index) => index.toString()}
-        data={globalState.subject[id].papers}
-        renderItem={paperView}
-        style={{width: '100%'}}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.listView}
-      />
-    </ImageBackground>
+    <SafeAreaView style={{flex: 1, backgroundColor: theme.COLORS.WHITE}}>
+      <ImageBackground
+        source={require('../../assets/images/bg.png')}
+        style={styles.parent}
+        resizeMode="cover"
+        imageStyle={{opacity: 0.05}}>
+        <CustomHeader
+          navigation={navigation}
+          scene={scene}
+          title={globalState.subject[id].name}
+          back
+        />
+        <Text
+          style={
+            styles.marksText
+          }>{`Maximum Marks: ${globalState.subject[id].maximum_marks}`}</Text>
+        <FlatList
+          keyExtractor={(item, index) => index.toString()}
+          data={globalState.subject[id].papers}
+          renderItem={paperView}
+          style={{width: '100%'}}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.listView}
+        />
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 
@@ -227,13 +239,16 @@ const styles = StyleSheet.create({
   },
   editButton: {
     borderRadius: theme.SIZES.small * 0.7,
-    padding: theme.SIZES.small / 2,
+    width: theme.SIZES.large * 2,
+    height: theme.SIZES.large * 1.9,
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
+    justifyContent: 'center',
+    alignItems: 'center',
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,

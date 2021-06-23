@@ -36,7 +36,7 @@ const Touchable: FunctionComponent<props> = ({
       ? theme.SIZES.normal + 4
       : size === 'MEDIUM'
       ? theme.SIZES.normal
-      : theme.SIZES.small + 3;
+      : theme.SIZES.small;
 
   return loading === false ? (
     <Pressable

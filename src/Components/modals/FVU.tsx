@@ -1,4 +1,3 @@
-import {Height, width} from '../../Constants/size';
 import {
   ActivityIndicator,
   Image,
@@ -9,15 +8,16 @@ import {
   Text,
   View,
 } from 'react-native';
+import {Height, width} from '../../Constants/size';
 import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
 
+import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
 import TextField from '../../Components/common/TextField';
 import Touchable from '../common/Touchable';
 import baseStyles from '../common/styles';
 import image from '../../Assets/images/fvu_image.png';
 import theme from '../../Constants/theme';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 //@ts-ignore
 
@@ -353,13 +353,9 @@ const styles = StyleSheet.create({
   parent: {
     paddingHorizontal: theme.SIZES.normal,
     paddingVertical: theme.SIZES.small,
-    marginTop: 30,
-    height: Height * 0.55,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    // alignSelf: 'center',
     backgroundColor: theme.COLORS.LIGHT_GREY,
     width: width * 0.9,
+    maxWidth: 500,
     borderRadius: theme.SIZES.small,
   },
   inputBox: {
@@ -374,9 +370,9 @@ const styles = StyleSheet.create({
   //   // borderRadius:50
   // },
   image: {
-    resizeMode: 'cover',
-    width: '59%',
-    height: Height * 0.21,
+    width: width * 0.4,
+    height: width * 0.5,
+    aspectRatio: 1,
     marginTop: theme.SIZES.large * 2,
     alignSelf: 'center',
   },

@@ -2,6 +2,7 @@ import {
   Alert,
   BackHandler,
   ImageBackground,
+  SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
@@ -13,6 +14,7 @@ import AlertModal from '../Components/modals/AlertModal';
 import Anima from '../Animations/home';
 import BroadcastBox from '../Components/BroadcastBox';
 import ErrorScreen from '../Components/common/ErrorScreen';
+import {FlatList} from 'react-native-gesture-handler';
 import Header from '../Common/CustomHeader';
 import NetInfo from '@react-native-community/netinfo';
 import PaperListItem from '../Components/PaperListItem';
@@ -22,6 +24,7 @@ import theme from '../Constants/theme';
 import useAuthState from '../State/AuthState';
 import {useGlobalState} from '../State/GlobalState';
 import useMainState from '../State/MainState';
+import {width} from '../Constants/size';
 
 const Home: FunctionComponent = ({navigation, scene}: any) => {
   const {animationStyle, newScrollHandler, fontScaleStyle} = Anima();
@@ -49,9 +52,10 @@ const Home: FunctionComponent = ({navigation, scene}: any) => {
   useEffect(() => {
     globalState.user &&
       getSubjects(globalState.user.program._id).then(() => setLoad(false));
-    getResources()
-      .then((res) => console.log('resources_resp', res))
-      .catch((e) => console.log('resources_erro', e));
+
+    // getResources()
+    //   .then((res) => console.log('resources_resp', res))
+    //   .catch((e) => console.log('resources_erro', e));
 
     const unsubscribe = NetInfo.addEventListener((state) => {
       setNetFail(!state.isConnected);
@@ -95,7 +99,7 @@ const Home: FunctionComponent = ({navigation, scene}: any) => {
     }
   };
   return (
-    <>
+    <SafeAreaView style={{flex: 1, backgroundColor: theme.COLORS.WHITE}}>
       <ErrorScreen show={netFail} navigation={navigation} scene={scene} />
       <Subscription
         show={showSubscription}
@@ -151,21 +155,25 @@ const Home: FunctionComponent = ({navigation, scene}: any) => {
             onPress={() => {}}
           />
           <Text style={baseStyles.heading}>My Courses</Text>
-          {
-            //@ts-ignore
-            globalState.subject.map((item, index) => (
+
+          <FlatList
+            style={{flex: 1}}
+            refreshing={load}
+            data={globalState.subject}
+            renderItem={({item, index}) => (
               <PaperListItem
                 load={load}
-                key={index}
+                key={item._id}
                 subject={item}
                 onRead={() => onPaperPress(index)}
               />
-            ))
-          }
+            )}
+            keyExtractor={(item) => item._id}
+          />
         </Animated.ScrollView>
         <AlertModal />
       </ImageBackground>
-    </>
+    </SafeAreaView>
   );
 };
 

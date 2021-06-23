@@ -2,17 +2,17 @@ import {Height, width} from '../Constants/size';
 import React, {FunctionComponent, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Cover from './common/Cover';
 import Expandable from './common/Expandable';
 import Icon from './common/Icon';
 import KeyValue from './common/KeyValue';
+import RNFetchBlob from 'rn-fetch-blob';
 import SkeletonLoader from './SkeletonLoader';
 import Touchable from './common/Touchable';
 import {URL} from '../Constants/urls';
 import baseStyles from './common/styles';
 import theme from '../Constants/theme';
-import RNFetchBlob from 'rn-fetch-blob';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type props = {
   subject: any;
@@ -23,22 +23,22 @@ type props = {
 const Loader = () => (
   <View style={styles.contractedParent}>
     <SkeletonLoader
-      width={width / 4}
-      height={Height * 0.17}
+      width={width > 450 ? '33%' : '28%'}
+      height={Height * 0.14}
       borderRadius={8}
       bgColor={theme.COLORS.HEADER}
       overlayColor={'#fff'}
     />
     <View style={styles.innerContainer}>
       <SkeletonLoader
-        width={width / 2}
+        width={'100%'}
         height={theme.SIZES.normal * 1.3}
         borderRadius={7}
         bgColor={theme.COLORS.HEADER}
         overlayColor={'#fff'}
       />
       <SkeletonLoader
-        width={width / 2}
+        width={'100%'}
         height={theme.SIZES.normal * 1.3}
         borderRadius={7}
         bgColor={theme.COLORS.HEADER}
@@ -53,14 +53,14 @@ const Loader = () => (
           alignItems: 'flex-end',
         }}>
         <SkeletonLoader
-          width={width / 6}
+          width={width > 450 ? '40%' : '30%'}
           height={theme.SIZES.large * 1.3}
           borderRadius={7}
           bgColor={theme.COLORS.HEADER}
           overlayColor={'#fff'}
         />
         <SkeletonLoader
-          width={width / 6}
+          width={width > 450 ? '40%' : '30%'}
           height={theme.SIZES.large * 1.3}
           borderRadius={7}
           bgColor={theme.COLORS.HEADER}
@@ -73,7 +73,7 @@ const Loader = () => (
 
 const PaperListItem: FunctionComponent<props> = ({subject, onRead, load}) => {
   useEffect(() => {
-    console.log('url', subject && typeof subject.cover === 'string');
+    console.log('height', Height);
     return () => {};
   }, [subject]);
   const Expanded = (handleToggle: () => void, toggle: boolean) => {
@@ -134,14 +134,14 @@ const PaperListItem: FunctionComponent<props> = ({subject, onRead, load}) => {
               flex: 1,
               width: '100%',
               flexDirection: 'row',
-              justifyContent: 'space-around',
+              justifyContent: 'flex-start',
               alignItems: 'flex-end',
             }}>
             <Touchable
               filled
               title={'Read'}
               loading={false}
-              size={'SMALL'}
+              size={'MEDIUM'}
               touchableProps={{
                 onPress: onRead,
                 disabled: false,
@@ -151,7 +151,7 @@ const PaperListItem: FunctionComponent<props> = ({subject, onRead, load}) => {
               filled
               title={toggle === true ? 'Less' : 'More'}
               loading={false}
-              size={'SMALL'}
+              size={'MEDIUM'}
               touchableProps={{
                 onPress: handleToggle,
                 disabled: false,
@@ -163,18 +163,34 @@ const PaperListItem: FunctionComponent<props> = ({subject, onRead, load}) => {
       </View>
     );
   };
+  const getDimen = () => {
+    let Dimen = {
+      width: {min: width * 0.95, max: width * 0.95},
+      height: {
+        min: 0,
+        max: 0,
+      },
+    };
+    if (Height < 700) {
+      Dimen.height.min = Height * 0.23;
+      Dimen.height.max = Height * 0.41;
+    }
+    if (Height > 700 && Height < 900) {
+      Dimen.height.min = Height * 0.2;
+      Dimen.height.max = Height * 0.38;
+    }
+    if (Height > 900) {
+      Dimen.height.min = Height * 0.2;
+      Dimen.height.max = Height * 0.36;
+    }
+    return Dimen;
+  };
   return (
     <Expandable
-      style={baseStyles.card}
+      style={[baseStyles.card, styles.parent]}
       ExpandComp={Expanded}
       ContractComp={Contracted}
-      dimen={{
-        width: {min: width * 0.95, max: width * 0.95},
-        height: {
-          min: theme.SIZES.ratio < 1.6 ? Height * 0.2 : Height * 0.23,
-          max: theme.SIZES.ratio < 1.6 ? Height * 0.32 : Height * 0.39,
-        },
-      }}
+      dimen={getDimen()}
     />
   );
 };
@@ -182,7 +198,10 @@ const PaperListItem: FunctionComponent<props> = ({subject, onRead, load}) => {
 export default PaperListItem;
 
 const styles = StyleSheet.create({
-  parent: {},
+  parent: {
+    width: width < 450 ? '95%' : '65%',
+    alignSelf: width < 400 ? 'flex-start' : 'center',
+  },
   iconButton: {
     position: 'absolute',
     right: 8,
@@ -198,11 +217,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingHorizontal: theme.SIZES.small,
     paddingTop: theme.SIZES.small / 2,
-    minHeight: '70%',
+    // minHeight: '70%',
   },
   contractedParent: {
     flexDirection: 'row',
-    maxHeight: theme.SIZES.ratio < 1.6 ? Height * 0.2 : Height * 0.22,
     paddingHorizontal: theme.SIZES.small,
     paddingVertical: theme.SIZES.small,
   },

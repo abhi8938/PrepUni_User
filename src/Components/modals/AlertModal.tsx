@@ -28,17 +28,16 @@ const AlertModal: FunctionComponent = () => {
         <View
           style={
             type === 'ERROR'
-              ? [styles.head, {backgroundColor: theme.COLORS.ERROR}]
-              : [styles.head, {backgroundColor: theme.COLORS.GREEN}]
+              ? [styles.head, {backgroundColor: theme.COLORS.DEFAULT}]
+              : [styles.head, {backgroundColor: theme.COLORS.DEFAULT}]
           }>
           <Icon
             size={theme.SIZES.large * 2}
             name={type === 'ERROR' ? 'times-circle' : 'check-circle'}
-            color={theme.COLORS.WHITE}
+            color={theme.COLORS.ERROR}
           />
         </View>
         <View style={styles.innerChild}>
-          <Text style={styles.textHead}>{type}</Text>
           <Text style={styles.message}>{message}</Text>
           <TouchableOpacity
             onPress={controls.toggle}
@@ -66,20 +65,19 @@ export default AlertModal;
 
 const styles = StyleSheet.create({
   parent: {
-    minHeight: Height * 0.32,
     width: width * 0.8,
     borderRadius: 5,
     backgroundColor: '#fff',
   },
   head: {
-    height: '28%',
+    paddingTop: theme.SIZES.large,
+    paddingBottom: theme.SIZES.normal,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
   },
   innerChild: {
-    flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: theme.SIZES.small,
@@ -90,28 +88,30 @@ const styles = StyleSheet.create({
     color: theme.COLORS.PRICE_COLOR,
   },
   message: {
-    fontSize: theme.SIZES.normal + 5,
-    fontFamily: 'ComicNeue-Regular',
+    fontSize: theme.SIZES.normal + 2,
+    fontFamily: 'Signika-Regular',
     width: '95%',
     textAlign: 'center',
-    marginTop: theme.SIZES.small,
+    color: theme.COLORS.PRICE_COLOR,
+    marginBottom: theme.SIZES.normal,
   },
   buttonStyle: {
     marginTop: theme.SIZES.small,
     borderRadius: theme.SIZES.large,
     paddingVertical: theme.SIZES.small * 0.4,
     paddingHorizontal: theme.SIZES.large,
-    borderWidth: 2,
+    borderWidth: 0.5,
+    backgroundColor: `${theme.COLORS.PRIMARY}10`,
   },
   buttonErrorStyle: {
-    borderColor: theme.COLORS.ERROR,
+    borderColor: theme.COLORS.PRIMARY,
   },
   buttonSuccessStyle: {
     borderColor: theme.COLORS.GREEN,
   },
   buttonErrorText: {
     fontSize: theme.SIZES.small + 4,
-    color: theme.COLORS.ERROR,
+    color: theme.COLORS.PRIMARY,
   },
   buttonSuccessText: {
     fontSize: theme.SIZES.small,

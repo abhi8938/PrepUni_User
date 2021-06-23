@@ -4,6 +4,7 @@ import {
   Linking,
   Platform,
   Pressable,
+  SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
@@ -15,6 +16,7 @@ import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import AgreementModal from '../Components/modals/AgreementModal';
 import AlertModal from '../Components/modals/AlertModal';
 import AuthHeader from '../Components/common/AuthHeader';
+import {CheckBox} from 'react-native-elements';
 import DateInput from '../Components/DateInput';
 import FVUModal from '../Components/modals/FVU';
 import {Height} from '../Constants/size';
@@ -27,7 +29,6 @@ import VerificationInput from '../Components/common/VerificationInput';
 import baseStyles from '../Components/common/styles';
 import theme from '../Constants/theme';
 import useAuthState from '../State/AuthState';
-import {CheckBox} from 'react-native-elements';
 
 type props = {
   navigation: any;
@@ -140,7 +141,7 @@ const SecondPage = ({
   load,
 }: any) => {
   return (
-    <View style={styles.viewContainer}>
+    <SafeAreaView style={styles.viewContainer}>
       <DateInput
         setdob={(dob) => {
           if (dob > new Date() || dob.getFullYear() < 1989)
@@ -218,7 +219,7 @@ const SecondPage = ({
           }}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 const ThirdPage = ({
@@ -504,170 +505,174 @@ const SignUp: FunctionComponent<props> = ({navigation, route}) => {
     }
   }, [route.params]);
   return (
-    // <View style={styles.parent}>
-    <ImageBackground
-      source={require('../Assets/images/bg.png')}
+    <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: theme.COLORS.WHITE,
-        paddingBottom: theme.SIZES.normal,
-      }}
-      resizeMode="cover"
-      imageStyle={{opacity: 0.03}}>
-      <StatusBar
-        backgroundColor={theme.COLORS.DEFAULT}
-        barStyle={'dark-content'}
-      />
-      <AuthHeader
-        back={controls.page === 1 ? true : false}
-        pageTitle={'Sign In'}
-        navigation={navigation}
-      />
+      }}>
+      <ImageBackground
+        source={require('../Assets/images/bg.png')}
+        style={{
+          flex: 1,
 
-      <KeyboardAvoidingView
-        enabled={controls.page === 4 ? false : true}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{flex: 0.95}}
-        contentContainerStyle={{
-          backgroundColor: theme.COLORS.DEFAULT,
+          paddingBottom: theme.SIZES.normal,
         }}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 5 : 0}>
-        {controls.page === 1 ? (
-          <FirstPage register={register} handleRegister={handleRegister} />
-        ) : null}
-        {controls.page === 2 ? (
-          <SecondPage
-            register={register}
-            handleRegister={handleRegister}
-            handleFVU={handleFVU}
-            sendCodeMail={sendCodeMail}
-            sendCodePhone={sendCodePhone}
-            load={load}
-          />
-        ) : null}
-        {controls.page === 3 ? (
-          <ThirdPage
-            register={register}
-            handleRegister={handleRegister}
-            getUniversities={getUniversities}
-            getPrograms={getPrograms}
-            getSems={getSems}
-            lists={lists}
-            handleLists={handleLists}
-          />
-        ) : null}
-        {controls.page === 4 ? (
-          <FourthPage
-            register={register}
-            handleRegister={handleRegister}
-            controls={controls}
-            handleControls={handleControls}
-            policies={policies}
-            selectPolicy={selectPolicy}
-          />
-        ) : null}
-      </KeyboardAvoidingView>
-
-      <View style={styles.buttonContainer}>
-        <Touchable
-          touchableProps={{
-            onPress: () => handlePageChange('PREVIOUS'),
-            disabled: load,
-          }}
-          loading={false}
-          filled={true}
-          title={'Previous'}
-          size={'LARGE'}
-          style={{width: '30%'}}
+        resizeMode="cover"
+        imageStyle={{opacity: 0.03}}>
+        <StatusBar
+          backgroundColor={theme.COLORS.DEFAULT}
+          barStyle={'dark-content'}
+        />
+        <AuthHeader
+          back={controls.page === 1 ? true : false}
+          pageTitle={'Sign In'}
+          navigation={navigation}
         />
 
-        <TouchableOpacity
-          onPress={() => resetRegister()}
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingHorizontal: theme.SIZES.small / 1.1,
-            paddingVertical: theme.SIZES.small / 1.1,
-            marginVertical: theme.SIZES.small,
-            marginHorizontal: theme.SIZES.small,
-            borderRadius: 50,
-            elevation: 3,
-            backgroundColor: theme.COLORS.PRIMARY,
-          }}>
-          <Icon type={'RESET'} size={0.9} />
-        </TouchableOpacity>
+        <KeyboardAvoidingView
+          enabled={controls.page === 4 ? false : true}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{flex: 0.95}}
+          contentContainerStyle={{
+            backgroundColor: theme.COLORS.DEFAULT,
+          }}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 5 : 0}>
+          {controls.page === 1 ? (
+            <FirstPage register={register} handleRegister={handleRegister} />
+          ) : null}
+          {controls.page === 2 ? (
+            <SecondPage
+              register={register}
+              handleRegister={handleRegister}
+              handleFVU={handleFVU}
+              sendCodeMail={sendCodeMail}
+              sendCodePhone={sendCodePhone}
+              load={load}
+            />
+          ) : null}
+          {controls.page === 3 ? (
+            <ThirdPage
+              register={register}
+              handleRegister={handleRegister}
+              getUniversities={getUniversities}
+              getPrograms={getPrograms}
+              getSems={getSems}
+              lists={lists}
+              handleLists={handleLists}
+            />
+          ) : null}
+          {controls.page === 4 ? (
+            <FourthPage
+              register={register}
+              handleRegister={handleRegister}
+              controls={controls}
+              handleControls={handleControls}
+              policies={policies}
+              selectPolicy={selectPolicy}
+            />
+          ) : null}
+        </KeyboardAvoidingView>
 
-        {controls.page !== 4 ? (
+        <View style={styles.buttonContainer}>
           <Touchable
             touchableProps={{
-              onPress: () => handlePageChange('NEXT'),
+              onPress: () => handlePageChange('PREVIOUS'),
               disabled: load,
             }}
-            filled={true}
             loading={false}
-            title={'Next'}
-            size={'LARGE'}
-            style={{width: '30%'}}
-          />
-        ) : (
-          <Touchable
-            touchableProps={{
-              onPress: () => SignUp(navigation),
-              disabled: load,
-            }}
             filled={true}
-            loading={load}
-            title={'Sign up'}
+            title={'Previous'}
             size={'LARGE'}
             style={{width: '30%'}}
           />
-        )}
-      </View>
-      <FVUModal
-        show={controls.FVU == 'NONE' ? false : true}
-        onRequest={() => resetModal()}
-        type={controls.FVU}
-        load={load}
-        otp={{
-          resendOTP: () => {
-            if (FVU.code.type === 'EMAIL-VERIFY') {
-              if (register.email.text.length === 0) {
-                return handleRegister(
-                  'email',
-                  'error_message',
-                  'email is required',
-                );
+
+          <TouchableOpacity
+            onPress={() => resetRegister()}
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingHorizontal: theme.SIZES.small / 1.1,
+              paddingVertical: theme.SIZES.small / 1.1,
+              marginVertical: theme.SIZES.small,
+              marginHorizontal: theme.SIZES.small,
+              borderRadius: 50,
+              elevation: 3,
+              backgroundColor: theme.COLORS.PRIMARY,
+            }}>
+            <Icon type={'RESET'} size={0.9} />
+          </TouchableOpacity>
+
+          {controls.page !== 4 ? (
+            <Touchable
+              touchableProps={{
+                onPress: () => handlePageChange('NEXT'),
+                disabled: load,
+              }}
+              filled={true}
+              loading={false}
+              title={'Next'}
+              size={'LARGE'}
+              style={{width: '30%'}}
+            />
+          ) : (
+            <Touchable
+              touchableProps={{
+                onPress: () => SignUp(navigation),
+                disabled: load,
+              }}
+              filled={true}
+              loading={load}
+              title={'Sign up'}
+              size={'LARGE'}
+              style={{width: '30%'}}
+            />
+          )}
+        </View>
+        <FVUModal
+          show={controls.FVU == 'NONE' ? false : true}
+          onRequest={() => resetModal()}
+          type={controls.FVU}
+          load={load}
+          otp={{
+            resendOTP: () => {
+              if (FVU.code.type === 'EMAIL-VERIFY') {
+                if (register.email.text.length === 0) {
+                  return handleRegister(
+                    'email',
+                    'error_message',
+                    'email is required',
+                  );
+                }
+                if (register.email.error_message.length !== 0) {
+                  return;
+                }
+                sendCodeMail(register.email.text);
+              } else if (FVU.code.type === 'CONTACT-VERIFY') {
+                if (register.contact.text.length === 0) {
+                  return handleRegister(
+                    'contact',
+                    'error_message',
+                    'mobile number is required to send otp',
+                  );
+                }
+                if (register.contact.error_message.length !== 0) {
+                  return;
+                }
+                sendCodePhone(register.contact.text);
               }
-              if (register.email.error_message.length !== 0) {
-                return;
-              }
-              sendCodeMail(register.email.text);
-            } else if (FVU.code.type === 'CONTACT-VERIFY') {
-              if (register.contact.text.length === 0) {
-                return handleRegister(
-                  'contact',
-                  'error_message',
-                  'mobile number is required to send otp',
-                );
-              }
-              if (register.contact.error_message.length !== 0) {
-                return;
-              }
-              sendCodePhone(register.contact.text);
-            }
-          },
-          type: FVU.code.type,
-          text: FVU.code.text,
-          onChangeText: (otp: string) => handleFVU('code', 'text', otp),
-          verifyOTP: VerifyCode,
-          onBlur: () => handleFVU('code', 'active', false),
-          onFocus: () => handleFVU('code', 'active', true),
-          error: FVU.code.error_message,
-        }}
-      />
-      <LogoModal show={logoModal} />
-    </ImageBackground>
-    // </View>
+            },
+            type: FVU.code.type,
+            text: FVU.code.text,
+            onChangeText: (otp: string) => handleFVU('code', 'text', otp),
+            verifyOTP: VerifyCode,
+            onBlur: () => handleFVU('code', 'active', false),
+            onFocus: () => handleFVU('code', 'active', true),
+            error: FVU.code.error_message,
+          }}
+        />
+        <LogoModal show={logoModal} />
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 

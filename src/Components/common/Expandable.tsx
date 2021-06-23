@@ -84,7 +84,6 @@ const Expandable: FunctionComponent<props> = ({
 export default Expandable;
 
 const styles = StyleSheet.create({
-  parent: {},
   contract: {},
   expand: {},
 });

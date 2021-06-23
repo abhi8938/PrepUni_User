@@ -1,9 +1,4 @@
-# User
+PREPUNI
 
-PrepUni User App
-
-Setup instructions -
-
-@ottofellar
-
-- delete nodemodules
+- EPUBREADER - show end at last page
+-

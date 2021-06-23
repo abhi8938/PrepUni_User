@@ -17,6 +17,7 @@ import DatesheetExpandView from '../Components/DatesheetExpandView';
 import EmptyScreen from './EmptyScreen';
 import IonicIcons from 'react-native-vector-icons/Ionicons';
 import ResourceHeader from '../Common/ResourceHeader';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import TopNavResorces from '../Components/common/TopNavResources';
 import bg from '../../assets/images/bg.png';
 import resourcesStore from '../State/resourcesStore';
@@ -32,54 +33,56 @@ const DatesheetScreen: FunctionComponent<props> = ({navigation, scene}) => {
   const {course, datesheet} = resourcesStore();
   const globalState: any = useGlobalState();
   return (
-    <ImageBackground
-      source={bg}
-      style={styles.parent}
-      resizeMode="cover"
-      imageStyle={{opacity: 0.04}}>
-      <CustomHeader
-        navigation={navigation}
-        scene={scene}
-        title={'Datesheet'}
-        nav
-        logo
-      />
+    <SafeAreaView style={styles.parent}>
+      <ImageBackground
+        source={bg}
+        style={styles.parent}
+        resizeMode="cover"
+        imageStyle={{opacity: 0.04}}>
+        <CustomHeader
+          navigation={navigation}
+          scene={scene}
+          title={'Datesheet'}
+          nav
+          logo
+        />
 
-      <View style={{paddingHorizontal: theme.SIZES.small}}>
-        <ResourceHeader title={'Datesheet'} />
-        {globalState.resources.datesheet === undefined ? (
-          <EmptyScreen message={'Not out yet!'} />
-        ) : (
-          <View style={{flex: 1}}>
-            <View style={styles.child}>
-              <Text
-                style={{
-                  fontSize: theme.SIZES.large,
-                  fontWeight: 'bold',
-                  color: '#00000090',
-                  fontFamily: 'ComicNeue-Bold',
-                }}>
-                {`Semester ${datesheet.sem}`}
-              </Text>
+        <View style={{paddingHorizontal: theme.SIZES.small}}>
+          <ResourceHeader title={'Datesheet'} />
+          {globalState.resources.datesheet === undefined ? (
+            <EmptyScreen message={'Not out yet!'} />
+          ) : (
+            <View style={{flex: 1}}>
+              <View style={styles.child}>
+                <Text
+                  style={{
+                    fontSize: theme.SIZES.large,
+                    fontWeight: 'bold',
+                    color: '#00000090',
+                    fontFamily: 'ComicNeue-Bold',
+                  }}>
+                  {`Semester ${datesheet.sem}`}
+                </Text>
+              </View>
+              <ScrollView
+                style={styles.scroll}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{paddingBottom: Height * 0.2}}>
+                {globalState.resources.datesheet.map(
+                  (item: any, index: number) => (
+                    <DatesheetExpandView
+                      key={index}
+                      datesheet={datesheet}
+                      index={index}
+                    />
+                  ),
+                )}
+              </ScrollView>
             </View>
-            <ScrollView
-              style={styles.scroll}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{paddingBottom: Height * 0.2}}>
-              {globalState.resources.datesheet.map(
-                (item: any, index: number) => (
-                  <DatesheetExpandView
-                    key={index}
-                    datesheet={datesheet}
-                    index={index}
-                  />
-                ),
-              )}
-            </ScrollView>
-          </View>
-        )}
-      </View>
-    </ImageBackground>
+          )}
+        </View>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 

@@ -603,6 +603,10 @@ const useAuthState = () => {
     }
     console.log(final_data);
     final_data['email'] = `${final_data['email']}`.toLowerCase();
+    if (final_data.contact === null) {
+      delete final_data.contact;
+    }
+    console.log('final_data', final_data);
     const response = await service.create_user(final_data);
     if (response.status === 200) {
       try {
@@ -672,7 +676,6 @@ const useAuthState = () => {
     setLoad(true);
     const response = await service.get_packages();
     if (response.status == 200) {
-      console.log('getPackages', response.data);
       setPackages(response.data);
     } else {
       handleAlert('ERROR', ErrorTitles[0], response.data, true);
@@ -686,7 +689,7 @@ const useAuthState = () => {
     finalAmount?: string,
   ) => {
     const response = await service.create_subscription(id, pa_id, finalAmount);
-    if (response.status == 200) {
+    if (response.status === 200) {
       console.log('subscription', response.data);
       setLogoModal(true);
       return response.data;

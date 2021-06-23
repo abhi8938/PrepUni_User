@@ -13,9 +13,9 @@ import theme from '../Constants/theme';
 const widthScreen = Dimensions.get('screen').width;
 
 const SkeletonLoader = (props: {
-  height: number;
+  height: number | string;
   borderRadius: number;
-  width: number;
+  width: number | string;
   bgColor?: any;
   overlayColor?: any;
 }) => {

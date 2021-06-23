@@ -1,11 +1,11 @@
-import {StyleSheet, Text, View} from 'react-native';
-import {Height} from '../../Constants/size';
 import React, {FunctionComponent} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
+import GIFLoader from '../GIFLoader';
+import {Height} from '../../Constants/size';
 import Icon from '../../Components/common/Icon';
 import Touchable from '../../Components/common/Touchable';
 import theme from '../../Constants/theme';
-import GIFLoader from '../GIFLoader';
 
 const PackageLoader = () => {
   return (
@@ -28,7 +28,7 @@ const FeatureView: FunctionComponent<prop> = ({data}) => {
         paddingHorizontal: theme.SIZES.small / 2,
         alignItems: 'center',
       }}>
-      <Icon type={data.active ? 'TICK_GREEN' : 'CROSS_RED'} size={0.6} />
+      <Icon type={data.active ? 'TICK_GREEN' : 'CROSS_RED'} size={0.7} />
 
       <Text
         style={{
@@ -66,14 +66,20 @@ const PackageOverView: FunctionComponent<props> = ({
         <View style={styles.trial}>
           <Text
             style={{
-              fontSize: 22,
+              fontSize: theme.SIZES.large * 1.2,
               color: theme.COLORS.PRIMARY,
               alignSelf: 'center',
             }}>
             {title}
           </Text>
-          <Text style={{alignSelf: 'center', fontWeight: 'bold', marginTop: 8}}>
-            {parseInt(packs.price) - parseInt(packs.discount)}
+          <Text
+            style={{
+              alignSelf: 'center',
+              fontWeight: 'bold',
+              marginTop: 8,
+              fontSize: theme.SIZES.normal,
+            }}>
+            ₹ {parseInt(packs.price) - parseInt(packs.discount)}
           </Text>
           {packs.features &&
             packs.features.map((item: any, index: number) => (
@@ -128,8 +134,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     borderColor: theme.COLORS.PRIMARY,
     width: '49%',
+    maxWidth: 260,
     borderRadius: 8,
     borderWidth: 1,
     paddingVertical: theme.SIZES.small,
+    marginHorizontal: theme.SIZES.small / 2,
   },
 });

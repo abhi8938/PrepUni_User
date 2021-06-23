@@ -1,5 +1,5 @@
 import {Height, width} from '../../Constants/size';
-import {Image, Pressable, StyleSheet, Text, View, Modal} from 'react-native';
+import {Image, Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {FunctionComponent, useEffect, useState} from 'react';
 
 import Touchable from '../common/Touchable';
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
   parent: {
     alignItems: 'center',
     width: width * 0.9,
+    maxWidth: 500,
   },
   image: {
     width: '85%',

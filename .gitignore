@@ -37,6 +37,7 @@ local.properties
 #
 node_modules/*
 !node_modules/react-native-splash-screen/
+!node_modules/react-native-webview/
 npm-debug.log
 yarn-error.log
 

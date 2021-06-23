@@ -1,4 +1,4 @@
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React, {FunctionComponent, useRef} from 'react';
 
 import Animated from 'react-native-reanimated';
@@ -118,7 +118,7 @@ const CustomHeader: FunctionComponent<props> = ({
         )}
       </View>
       <View style={styles.iconsection}>
-        {search ? Search(navigation) : null}
+        {/* {search ? Search(navigation) : null} */}
         {bell ? <Bell navigation={navigation} /> : null}
       </View>
       {logo && <BrandName />}
@@ -133,11 +133,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingLeft: theme.SIZES.small / 2,
+    paddingLeft: theme.SIZES.small / 1.5,
     paddingRight: theme.SIZES.small / 3,
-    paddingVertical: theme.SIZES.small - 4,
-    // backgroundColor: theme.COLORS.WHITE,
-    marginTop: Platform.OS === 'ios' ? theme.SIZES.large * 1.8 : 0,
+    paddingVertical: theme.SIZES.small / 2,
     width: width,
   },
   iconsection: {
